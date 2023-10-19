@@ -1,0 +1,151 @@
+import os
+def anaMenu():
+  print("ARAC KİRALAMA PROGRAMI")#programın ana menüsü
+  print(
+            "**********************",
+            "* 0: programdan çık   *",
+            "* 1: Arac ekle        *",
+            "* 2: Aracları listele *",
+            "* 3: Araç kirala      *",
+            "* 4: Arac Guncelle    *",
+            "* 5: Arac Sil         *",
+            "**********************",
+            sep="\n"
+        )
+
+def aracEkle():
+   plaka=input("Araç plakasını giriniz:")#kullanıcıdan arac bilgileri alınıyor.
+   marka=input("Arac markasını giriniz:")#kullanıcıdan arac bilgileri alınıyor.
+   model=input("Araç modelini giriniz:")
+   km=float(input("Araç km giriniz:"))
+   fiyat=input("Aracın saatlik kiralama fiyatı:")
+
+   file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt','a')
+
+   file.write(plaka+'\n')#arac_kiralama_program.txt dosyasına araç bilgi girişi yapmak için yazılıyor
+   file.write(marka+'\n')
+   file.write(model+'\n')
+   file.write(str(km)+'\n')
+   file.write(str(fiyat)+'\n')
+   file.close()
+
+def aracListele():
+   file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt','r')#aracı listelemek için dosya okunuyor
+   file_content=file.read()
+   print(file_content+'\n')
+   file.close()
+
+def aracKirala():
+   found=False
+   arac_file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt','r')#dosyanın okunma işlemi
+   search=input("kiralamak istediğiniz aracın plakasını giriniz:")#kullanıcı kiralamak istediği aracın plakasını giriyor.
+   plk=arac_file.readline()#ilk satıra bakılıyor
+   while plk != ' ':#dosyada ilk satırda bilgi olup olmadığını kontrol ediyor
+    marka=arac_file.readline()
+    model=arac_file.readline()
+    km=arac_file.readline()
+    fiyat=arac_file.readline()
+    plk=plk.rstrip('\n')#string ifadeden sonra ve önceki ifadeyi siliyor.
+
+    if plk==search: #kullanıcının girdiği ile sistemde kayıtlı olan plaka değeri karşılaştırılıyor.
+      print("Arac başarıyla kiralandı!!!")#eğer kullanıcının istediği araç bulunuyorsa araç kiralanıyor.
+      print("Kiralanan araç bilgileri")
+      print("------------------------")
+      print("Aracın markası:",marka)
+      print("Aracın modeli:",model)
+      print("Aracın km'si:",km)
+      print("Aracın saatlik fiyatı:",fiyat)
+      found=True
+      break
+    elif plk!=search:
+     plk=arac_file.readline()
+    elif plk=='\0':
+      print("arac bilgisi bulunmamaktadır!!!")
+   arac_file.close()
+
+def aracGuncelle():
+  guncelle_file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt','r')#dosyanın okunma işlemi
+  y_file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/y.txt','w')
+  search=input("Güncellemek istediğiniz aracın plaka bilgisini giriniz:")
+
+  plk=guncelle_file.readline()
+  while plk != '':
+    marka=guncelle_file.readline()#2. satırı okur
+    model=guncelle_file.readline()#3. satırı okur
+    km=guncelle_file.readline()#4. satırı okur
+    fiyat=guncelle_file.readline()#5. satırı okur
+    plk=plk.rstrip('\n')
+
+    if search==plk:
+      g_km=input("Yeni kilometre bilgisini giriniz:")
+      g_fiyat=input("Yeni fiyat bilgisini giriniz:")
+      y_file.write(plk+'\n')
+      y_file.write(marka+'\n')
+      y_file.write(model+'\n')
+      y_file.write(g_km+'\n')
+      y_file.write(g_fiyat+'\n')
+      print("Bilgiler Güncellendi!!!")
+      plk=guncelle_file.readline()
+
+    elif search!=plk:
+      y_file.write=(plk+'\n')
+      y_file.write=(marka+'\n')
+      y_file.write=(model+'\n')
+      y_file.write=(km+'\n')
+      y_file.write=(fiyat+'\n')
+
+  plk=guncelle_file.readline()
+  guncelle_file.close()
+  y_file.close()
+  os.remove('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt')
+  os.rename('/content/drive/MyDrive/Colab Notebooks/pyhton/y.txt','/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt')
+
+def aracSil():
+  sil_file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt','r')#dosyanın okunma işlemi
+  y_file=open('/content/drive/MyDrive/Colab Notebooks/pyhton/y.txt','w')
+  search=input("Silmek istediğiniz aracın plaka bilgisini giriniz:")
+  plk=sil_file.readline()
+  while plk != '':
+   marka_3=sil_file.readline()#2. satırı okur
+   model_3=sil_file.readline()#3. satırı okur
+   km_3=sil_file.readline()#4. satırı okur
+   fiyat_3=sil_file.readline()#5. satırı okur
+   plk=plk.rstrip('\n')
+   if search==plk:
+    print("Silinen aracın bilgileri")
+    print("------------------------")
+    print("Aracın markası:",marka_3)
+    print("Aracın modeli:",model_3)
+    print("Aracın km'si:",km_3)
+    print("Aracın saatlik fiyatı:",fiyat_3)
+    break;
+   else:
+    y_file.write(plk+'\n')
+    y_file.write(marka_3+'\n')
+    y_file.write(model_3+'\n')
+    y_file.write(km_3+'\n')
+    y_file.write(fiyat_3+'\n')
+    plk=sil_file.readline()
+  sil_file.close()
+  y_file.close()
+  os.remove('/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt')
+  os.rename('/content/drive/MyDrive/Colab Notebooks/pyhton/y.txt','/content/drive/MyDrive/Colab Notebooks/pyhton/arac_kiralama_program.txt')
+devam = "y"
+while devam == "y":
+        anaMenu()
+        secim = int(input("Seçiminizi giriniz:"))#kullanıcı seçim yaparak çağırmak istediği programı çağırıyor.
+        print()
+        if secim == 0:
+         break
+        if secim == 1:
+          aracEkle()#fonksiyon çağrılıyor
+        if secim == 2:
+          aracListele()#fonksiyon çağrılıyor
+        if secim == 3:
+          aracKirala()#fonksiyon çağrılıyor
+        if secim==4:
+          aracGuncelle()
+        if secim==5:
+          aracSil()
+
+        devam = input("Devam etmek isterseniz y tuşuna basınız:")#kullanıcı programa devam etmek istiyorsa koşulu sağlıyor.
